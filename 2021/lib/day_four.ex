@@ -1,5 +1,5 @@
 defmodule DayFour do
-  def part_one() do
+  def parse_input() do
     [raw_calling_order | raw_boards] =
       File.read!("input/day_four.txt")
       |> String.split("\n")
@@ -20,7 +20,17 @@ defmodule DayFour do
         |> Enum.concat()
       end)
 
+    {calling_order, parsed_boards}
+  end
+
+  def part_one() do
+    {calling_order, parsed_boards} = parse_input()
     Game.play_bingo(calling_order, parsed_boards)
+  end
+
+  def part_two do
+    {calling_order, parsed_boards} = parse_input()
+    Game.play_bingo_part_two(calling_order, parsed_boards)
   end
 end
 
@@ -38,6 +48,27 @@ defmodule Game do
       play_bingo(tail, updated_boards)
     end
   end
+
+  def play_bingo_part_two([], _boards), do: IO.puts("Game ended with no winner")
+
+  def play_bingo_part_two([called | tail], boards) do
+    updated_boards = boards |> Enum.map(&Board.update_board(&1, called))
+    remaining_boards = updated_boards |> Enum.filter(fn board -> !Board.board_has_won?(board) end)
+
+    if Enum.empty?(remaining_boards) do
+      if Enum.count_until(updated_boards, 2) != 1 do
+        raise("There were multiple boards that won last")
+      end
+
+      [last_board] = updated_boards
+
+      if Board.board_has_won?(last_board) do
+        Board.score_board(last_board, called)
+      end
+    else
+      play_bingo_part_two(tail, remaining_boards)
+    end
+  end
 end
 
 defmodule Board do
@@ -53,7 +84,8 @@ defmodule Board do
 
   def update_board(board, called) do
     to_update_idx = Enum.find_index(board, fn %{value: value} -> value == called end)
-    if (to_update_idx == nil) do
+
+    if to_update_idx == nil do
       board
     else
       List.update_at(board, to_update_idx, &%{&1 | marked: true})
