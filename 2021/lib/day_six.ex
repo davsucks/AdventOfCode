@@ -58,15 +58,17 @@ defmodule DaySix do
   end
 
   def part_two do
-    school = File.read!("input/day_six.txt")
-    |> String.split(",")
-    |> Enum.map(&String.trim(&1))
-    |> Enum.map(&String.to_integer(&1))
+    school =
+      File.read!("input/day_six.txt")
+      |> String.split(",")
+      |> Enum.map(&String.trim(&1))
+      |> Enum.map(&String.to_integer(&1))
 
     days = 0..8 |> Enum.map(fn _ -> 0 end)
     days = school |> Enum.reduce(days, fn fish, acc -> List.update_at(acc, fish, &(&1 + 1)) end)
 
     num_days = 256
+
     final_school =
       1..num_days
       |> Enum.reduce(days, fn _, [num_procreating_fish | rest] ->
