@@ -111,10 +111,15 @@ defmodule DayNine do
     input = parse_input_part_two()
 
     low_points = find_low_points(input)
-    basins = low_points |> Enum.map(fn low_point -> find_basin(input, [low_point]) end) |> Enum.map(&Enum.uniq/1)
+
+    basins =
+      low_points
+      |> Enum.map(fn low_point -> find_basin(input, [low_point]) end)
+      |> Enum.map(&Enum.uniq/1)
+
     # IO.puts(basins)
     sorted_sizes = basins |> Enum.map(&length/1) |> Enum.sort(&(&1 >= &2))
-    IO.puts(inspect sorted_sizes)
+    IO.puts(inspect(sorted_sizes))
     [first | [second | [third | _]]] = sorted_sizes
     first * second * third
   end
