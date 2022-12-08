@@ -18,8 +18,9 @@ defmodule DayOne do
         end
       )
       |> Enum.sort(:desc)
-      [head | _tail] = input
-      head
+
+    [head | _tail] = input
+    head
   end
 
   def partTwo do
