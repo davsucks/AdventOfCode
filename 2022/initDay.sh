@@ -9,10 +9,10 @@ touch lib/day_${day}.ex
 
 cat <<EOT >> lib/day_${day}.ex
 defmodule Day${day^} do
-  def partOne do
+  def part_one do
   end
 
-  def partTwo do
+  def part_two do
   end
 end
 EOT

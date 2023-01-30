@@ -40,13 +40,12 @@ defmodule DaySeven do
     end
   end
 
-
-  def sizeDirectories(files, dirNames, lookup, acc) do
+  def sizeDirectories(_files, _dirNames, _lookup, _acc) do
   end
 
   def sizeDirectory(files) do
     files
-    |> Enum.reduce(0, fn {filename, filesize}, acc ->
+    |> Enum.reduce(0, fn {_filename, filesize}, acc ->
       cond do
         is_map(filesize) ->
           acc + sizeDirectory(Enum.to_list(filesize))
@@ -58,14 +57,14 @@ defmodule DaySeven do
   end
 
   def partOne do
-    input =
+    _input =
       Utils.parseInput("day_seven_test.txt")
       # drop cd /
       |> Enum.drop(1)
       |> Enum.map(&String.trim/1)
       |> parseDirectory([{"/", %{}}], %{})
       |> Enum.to_list()
-      |> sizeDirectories("/", %{})
+      |> sizeDirectories("/", %{}, %{})
   end
 
   def partTwo do
