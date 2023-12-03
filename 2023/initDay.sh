@@ -2,8 +2,7 @@
 
 day=$1
 
-touch input/day_${day}_test_one.txt
-touch input/day_${day}_test_two.txt
+touch input/day_${day}_test.txt
 touch input/day_${day}.txt
 touch lib/day_${day}.ex
 
