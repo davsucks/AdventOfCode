@@ -45,11 +45,13 @@ defmodule DayThree do
     end)
   end
 
-  defp count_until([], _, _, acc) do
+  defp count_until(arr, number, num_left, acc \\ 0)
+
+  defp count_until([], _, _, _) do
     raise "didn't find match"
   end
 
-  defp count_until([section | rest], number, num_left, acc \\ 0) do
+  defp count_until([section | rest], number, num_left, acc) do
     section_is_number = Regex.match?(~r/\d+/, section)
     next_num_left = if section_is_number, do: num_left - 1, else: num_left
 
